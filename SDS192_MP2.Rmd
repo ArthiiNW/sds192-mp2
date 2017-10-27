@@ -28,6 +28,10 @@ candyear <- candidates %>%
 
 
 
+```{r}
+candMA <- candyear %>%
+  filter(cand_office_state == "MA")
+```
 
 
 
