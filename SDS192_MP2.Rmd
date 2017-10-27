@@ -21,15 +21,15 @@ library(tidyverse)
 ```
 
 ```{R}
-candidatesyear <- candidates %>%
-  select(-cand_id, -cand_office, -cand_office_district, -cand_ici, -cand_status, -cand_pcc, -cand_st1, -cand_st2, -cand_city) %>%
+candyear <- candidates %>%
+  select(-cand_id, -cand_office, -cand_office_district, -cand_ici, -cand_status, -cand_pcc, -cand_st1, -cand_st2, -cand_city, -cand_state) %>%
   filter(cand_election_yr == 2012)
 ```
 
-```{R}
-candidatesyear %>%
-  filter(cand_office_state != cand_state)
-```
+
+
+
+
 
 
 
