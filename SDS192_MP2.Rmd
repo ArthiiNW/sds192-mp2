@@ -24,7 +24,7 @@ library(tidyverse)
 candyear <- candidates %>%
   select(-cand_id, -cand_office, -cand_office_district, -cand_ici, -cand_status, -cand_pcc, -cand_st1, -cand_st2, -cand_city, -cand_state) %>%
   filter(cand_election_yr == 2012) %>%
-  filter(cand_party_affiliation == "DEM" & cand_party_affiliation == "REP")
+  filter(cand_party_affiliation %in% c("DEM", "REP"))
 ```
 
 
