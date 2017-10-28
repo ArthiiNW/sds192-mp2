@@ -48,11 +48,11 @@ contricand <-candyear %>%
 ```{R}
 party <- contricand %>%
   group_by(cand_office_state, cand_party_affiliation) %>%
-  summarise(nparty = sum(n()))
+  summarise(nparty = sum(n())) %>%
+  spread(key = cand_party_affiliation, value = nparty)
 ```
 
 
 ```{R}
-party %>%
-  spread(key = cand_party_affiliation, value = nparty)
+party[is.na(party)] <- 0
 ```
