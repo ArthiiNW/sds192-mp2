@@ -22,9 +22,10 @@ library(tidyverse)
 
 ```{R}
 candyear <- candidates %>%
-  select(-cand_id, -cand_office, -cand_office_district, -cand_ici, -cand_status, -cand_pcc, -cand_st1, -cand_st2, -cand_city, -cand_state) %>%
+  select(-cand_office_district, -cand_ici, -cand_status, -cand_pcc, -cand_st1, -cand_st2, -cand_city, -cand_state, -cand_zip) %>%
   filter(cand_election_yr == 2012) %>%
-  filter(cand_party_affiliation %in% c("DEM", "REP"))
+  filter(cand_party_affiliation %in% c("DEM", "REP")) %>%
+  filter(cand_office == "S")
 ```
 
 
@@ -33,7 +34,22 @@ candMA <- candyear %>%
   filter(cand_office_state == "MA")
 ```
 
+```{r}
+contritidy <- contributions %>%
+  select(cmte_id, name, state, cand_id)
 
+contricand <-candyear %>%
+  right_join(contritidy, by = "cand_id") %>%
+  filter(cand_office == "S") %>%
+  filter(!is.na(cand_name)) %>%
+  arrange(cand_office_state)
+```
+
+```{R}
+contricand %>%
+  group_by(cand_office_state, cand_party_affiliation) %>%
+  summarise(nparty = sum(n()))
+```
 
 
 
