@@ -55,4 +55,22 @@ party <- contricand %>%
 
 ```{R}
 party[is.na(party)] <- 0
+
+party2 <- party %>%
+  mutate (DEMtoREP = DEM/REP) %>%
+  
+
 ```
+```{r}
+candplot <- ggplot(data = party2, aes(x = cand_office_state, y = DEMtoREP)) + geom_point() + scale_y_sqrt()
+candplot
+```
+```{r}
+party3 <- party2 %>%
+  filter(!cand_office_state == "DE")
+
+candplot2 <- ggplot(data = party3, aes(x = cand_office_state, y = DEMtoREP), alpha = 0.2) + geom_point() + scale_y_sqrt() + geom_hline(yintercept = 1) +  geom_text(aes(0,1,label = 'ratio=1', hjust = -.3, vjust = -0.5))
+                                                                                                                                
+candplot2
+```
+
