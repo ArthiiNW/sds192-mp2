@@ -12,12 +12,11 @@ load("committees.rda")
 load("contributions.rda")
 ```
 
-# Its Nikki!!!!
-
 Library packages
 ```{R, Message = FALSE}
 library(ggplot2)
 library(tidyverse)
+data(candidates)
 ```
 
 ```{R}
@@ -70,8 +69,14 @@ candplot
 party3 <- party2 %>%
   filter(!cand_office_state == "DE")
 
-candplot2 <- ggplot(data = party3, aes(x = cand_office_state, y = DEMtoREP), alpha = 0.2) + geom_point() + scale_y_sqrt() + geom_hline(yintercept = 1) +  geom_text(aes(0,1,label = 'ratio=1', hjust = -.3, vjust = -0.5))
-                                                                                                                                
+candplot2 <- ggplot(data = party3, aes(x = cand_office_state, y = DEMtoREP), alpha = 0.2) + 
+  geom_point() + 
+  scale_y_sqrt() + 
+  geom_hline(yintercept = 1) +  
+  geom_text(aes(0,1,label = 'ratio=1', hjust = -.3, vjust = -0.5)) +
+  labs(title = "Money Received by Democrat VS Republican in Each State") +
+  ylab(label = "Ratio of Money Received by Democrat VS Republican") +
+  theme(plot.title = element_text(hjust = 0.5))
 candplot2
 ```
 
