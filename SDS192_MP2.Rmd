@@ -19,10 +19,14 @@ library(tidyverse)
 In the first step, we filtered the candidate data to focus on 2012 Senate election, and we created a subset of contribution data to focus on the amount of money received by different candidates in different state.
 
 ```{R}
-candyear <- candidates %>%
+select_candyear <- function(yearselect) {
+  candidates %>%
   select(-cand_office_district, -cand_status, -cand_city, -cand_state) %>%
-  filter(cand_election_yr == 2012) %>%
+  filter(cand_election_yr == yearselect) %>%
   filter(cand_office == "S") 
+}
+
+candyear <- select_candyear(yearselect = "2012")
 
 contritidy <- contributions %>%
   select(cmte_id, name, state, cand_id, transaction_amt)
@@ -43,9 +47,8 @@ In the third step, we sum up the total amount of money each party received in ea
 ```{R}
 party <- contricand %>%
   group_by(cand_office_state, cand_party_affiliation) %>%
-  mutate(partydonation = sum(transaction_amt)) %>%
-summarise(nparty = sum(n())) %>%
-spread(key = cand_party_affiliation, value = nparty)
+  summarise(partydonation = sum(transaction_amt)) %>%
+  spread(key = cand_party_affiliation, value = partydonation)
 
 party[is.na(party)] <- 0
 ```
@@ -68,4 +71,3 @@ candplot <- ggplot(data = party2, aes(x = cand_office_state, y = DEMtototal), al
 
 candplot
 ```
-
