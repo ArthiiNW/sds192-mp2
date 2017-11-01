@@ -5,7 +5,7 @@ date: "10/23/2017"
 output: html_document
 ---
 
-In this mini project, we are curious to see if the party who gains more than 50% of the total donation in one state will win the 2012 senate election in that state. 
+In this mini project, we are curious to see if democrat candidates gained more than 50% of the total donation in one state, will democrat win the 2012 senate election in that state?
 
 ```{R message = FALSE}
 load("house_elections.rda")
@@ -14,6 +14,7 @@ load("committees.rda")
 load("contributions.rda")
 library(ggplot2)
 library(tidyverse)
+library(readr)
 ```
 
 In the first step, we filtered the candidate data to focus on 2012 Senate election, and we created a subset of contribution data to focus on the amount of money received by different candidates in different state.
@@ -61,11 +62,21 @@ party2 <- party %>%
   mutate (DEMtototal = DEM/total)
 ```
 
+<<<<<<< HEAD
 In the final step, we drew a scatterplot of the percentage of total donation democrats received in the 33 states participating in the 2012 Senate election. We added a line that indicates 50%, so the points above this line mean that democrats received more than half of the total donation in these states. The color of the points indicate the actual election result: blue point means democrat candidate won the election, red means republican, and black means independent.
+=======
+```{r message = FALSE}
+result <- read_csv("~/sds192-mp2/Swinner.csv")
+
+party3 <- party2 %>%
+  right_join(result, by = "cand_office_state")
+```
+>>>>>>> 9f79ef25c675855f70e2a1b0e2f548ba247491eb
 
 ```{r}
-candplot <- ggplot(data = party2, aes(x = cand_office_state, y = DEMtototal), alpha = 0.2) + 
-  geom_point() +
+candplot <- ggplot(data = party3, aes(x = cand_office_state, y = DEMtototal), alpha = 0.2) + 
+  geom_point(aes(col= Winner)) +
+  scale_colour_manual (values= as.character(c(high="blue2", mid ="black", low = "red2"))) +
   geom_hline(yintercept = 0.5) +  
   labs(title = "% Money Received by Democrat") +
   ylab(label = "Percentage") +
@@ -78,4 +89,3 @@ We can see from the graph that for all the points above the 50% line, only Nevad
 
 However, exceptions are still quite often. 7 states had less than 50% of total donation recieved by democrat candidates, but they still elected democrats as their senators.
 
-hahaha
