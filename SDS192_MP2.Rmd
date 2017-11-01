@@ -16,21 +16,13 @@ Library packages
 ```{R, Message = FALSE}
 library(ggplot2)
 library(tidyverse)
-data(candidates)
 ```
 
 ```{R}
 candyear <- candidates %>%
   select(-cand_office_district, -cand_status, -cand_city, -cand_state) %>%
   filter(cand_election_yr == 2012) %>%
-  filter(cand_party_affiliation %in% c("DEM", "REP")) %>%
-  filter(cand_office == "S")
-```
-
-
-```{r}
-candMA <- candyear %>%
-  filter(cand_office_state == "MA")
+  filter(cand_office == "S") 
 ```
 
 ```{r}
@@ -47,36 +39,30 @@ contricand <-candyear %>%
 ```{R}
 party <- contricand %>%
   group_by(cand_office_state, cand_party_affiliation) %>%
-  mutate(partydonation = sum(contricand$transaction_amt)
-```
-
+  mutate(partydonation = sum(transaction_amt)) %>%
 summarise(nparty = sum(n())) %>%
 spread(key = cand_party_affiliation, value = nparty)
+```
 
 ```{R}
 party[is.na(party)] <- 0
 
 party2 <- party %>%
-  mutate (DEMtoREP = DEM/REP)
-
+  mutate(total = DEM + REP + IND + LIB + SUS + GRE) %>%
+  mutate (DEMtototal = DEM/total)
 ```
 
 ```{r}
-candplot <- ggplot(data = party2, aes(x = cand_office_state, y = DEMtoREP)) + geom_point() + scale_y_sqrt()
+candplot <- ggplot(data = party2, aes(x = cand_office_state, y = DEMtototal), alpha = 0.2) + 
+  geom_point() +
+  geom_hline(yintercept = 0.5) +  
+  labs(title = "% Money Received by Democrat") +
+  ylab(label = "Percentage") +
+  xlab(label = "States") +
+  theme(plot.title = element_text(hjust = 0.5))
+
 candplot
 ```
 
-```{r}
-party3 <- party2 %>%
-  filter(!cand_office_state == "DE")
 
-candplot2 <- ggplot(data = party3, aes(x = cand_office_state, y = DEMtoREP), alpha = 0.2) + 
-  geom_point() + 
-  scale_y_sqrt(breaks = c(1,50)) + 
-  geom_hline(yintercept = 1) +  
-  labs(title = "Money Received by Democrat VS Republican in Each State") +
-  ylab(label = "Ratio of Money Received by Democrat VS Republican") +
-  theme(plot.title = element_text(hjust = 0.5))
-candplot2
-```
 
