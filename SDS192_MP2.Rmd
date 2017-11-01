@@ -5,7 +5,7 @@ date: "10/23/2017"
 output: html_document
 ---
 
-In this mini project, we are curious to see if the party who gains more than 50% of the total donation in one state will win the 2012 senate election in that state.
+In this mini project, we are curious to see if the party who gains more than 50% of the total donation in one state will win the 2012 senate election in that state. 
 
 ```{R message = FALSE}
 load("house_elections.rda")
@@ -53,12 +53,15 @@ party <- contricand %>%
 party[is.na(party)] <- 0
 ```
 
+In the fourth step, we calculate the total amount of donation of each state, and then we devide the amount of donation democrat received in each state by the total amount of donation in each state (this is the percentage of total donation democrats recieved in each state). We called this new variable DEMtototal.
 
 ```{R}
 party2 <- party %>%
   mutate(total = DEM + REP + IND + LIB + SUS + GRE) %>%
   mutate (DEMtototal = DEM/total)
 ```
+
+In the final step, we drew a scatterplot of the percentage of total donation democrats received in the 33 states participating in the 2012 Senate election. We added a line that indicates 50%, so the points above this line mean that democrats received more than half of the total donation in these states. The color of the points indicate the actual election result: blue point means democrat candidate won the election, red means republican, and black means independent.
 
 ```{r}
 candplot <- ggplot(data = party2, aes(x = cand_office_state, y = DEMtototal), alpha = 0.2) + 
@@ -71,3 +74,6 @@ candplot <- ggplot(data = party2, aes(x = cand_office_state, y = DEMtototal), al
 
 candplot
 ```
+We can see from the graph that for all the points above the 50% line, only Nevada elected a Republican senator, whereas the other points all have democrats elected. This correspond to our hypothesis that there is a high chance of electing a democratic senator if more than 50% of a state's total donation is received by democrats. 
+
+However, exceptions are still quite often. 7 states had less than 50% of total donation recieved by democrat candidates, but they still elected democrats as their senators.
