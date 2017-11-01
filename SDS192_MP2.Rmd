@@ -56,6 +56,13 @@ party2 <- party %>%
 ```
 
 ```{r}
+result <- read_csv("~/sds192-MP2/Excel2.csv")
+
+party3 <- party2 %>%
+  right_join(result, by = "cand_office_state")
+```
+
+```{r}
 candplot <- ggplot(data = party2, aes(x = cand_office_state, y = DEMtototal), alpha = 0.2) + 
   geom_point() +
   geom_hline(yintercept = 0.5) +  
