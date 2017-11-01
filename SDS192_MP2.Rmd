@@ -77,3 +77,5 @@ candplot
 We can see from the graph that for all the points above the 50% line, only Nevada elected a Republican senator, whereas the other points all have democrats elected. This correspond to our hypothesis that there is a high chance of electing a democratic senator if more than 50% of a state's total donation is received by democrats. 
 
 However, exceptions are still quite often. 7 states had less than 50% of total donation recieved by democrat candidates, but they still elected democrats as their senators.
+
+hahaha
