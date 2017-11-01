@@ -62,16 +62,15 @@ party2 <- party %>%
   mutate (DEMtototal = DEM/total)
 ```
 
-<<<<<<< HEAD
 In the final step, we drew a scatterplot of the percentage of total donation democrats received in the 33 states participating in the 2012 Senate election. We added a line that indicates 50%, so the points above this line mean that democrats received more than half of the total donation in these states. The color of the points indicate the actual election result: blue point means democrat candidate won the election, red means republican, and black means independent.
-=======
+
 ```{r message = FALSE}
 result <- read_csv("~/sds192-mp2/Swinner.csv")
 
 party3 <- party2 %>%
   right_join(result, by = "cand_office_state")
 ```
->>>>>>> 9f79ef25c675855f70e2a1b0e2f548ba247491eb
+
 
 ```{r}
 candplot <- ggplot(data = party3, aes(x = cand_office_state, y = DEMtototal), alpha = 0.2) + 
@@ -85,6 +84,7 @@ candplot <- ggplot(data = party3, aes(x = cand_office_state, y = DEMtototal), al
 
 candplot
 ```
+
 We can see from the graph that for all the points above the 50% line, only Nevada elected a Republican senator, whereas the other points all have democrats elected. This correspond to our hypothesis that there is a high chance of electing a democratic senator if more than 50% of a state's total donation is received by democrats. 
 
 However, exceptions are still quite often. 7 states had less than 50% of total donation recieved by democrat candidates, but they still elected democrats as their senators.
