@@ -5,17 +5,18 @@ date: "10/23/2017"
 output: html_document
 ---
 
+In this mini project, we are curious to see if the party who gains more than 50% of the total donation in one state will win the 2012 senate election in that state.
+
 ```{R message = FALSE}
 load("house_elections.rda")
 load("candidates.rda")
 load("committees.rda")
 load("contributions.rda")
-```
-
-```{R message = FALSE}
 library(ggplot2)
 library(tidyverse)
 ```
+
+In the first step, we filtered the candidate data to focus on 2012 Senate election, and we created a subset of contribution data to focus on the amount of money received by different candidates in different state.
 
 ```{R}
 candyear <- candidates %>%
@@ -27,6 +28,7 @@ contritidy <- contributions %>%
   select(cmte_id, name, state, cand_id, transaction_amt)
 ```
 
+In the second step, we joined the two tables (candidates of 2012 Senate election and contribution received), and arranged the dataset by state.
 
 ```{r}
 contricand <-candyear %>%
@@ -35,6 +37,8 @@ contricand <-candyear %>%
   filter(!is.na(cand_name)) %>%
   arrange(cand_office_state)
 ```
+
+In the third step, we sum up the total amount of money each party received in each state.
 
 ```{R}
 party <- contricand %>%
@@ -45,6 +49,7 @@ spread(key = cand_party_affiliation, value = nparty)
 
 party[is.na(party)] <- 0
 ```
+
 
 ```{R}
 party2 <- party %>%
